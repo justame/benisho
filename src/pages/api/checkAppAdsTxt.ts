@@ -21,7 +21,6 @@ async function checkAppAdsTxt(urls: string[], searchStrings: string[]): Promise<
             if (response.status === 200) {
                 const lines = response.data.split('\n');
                 for (const line of lines) {
-                    console.log('line', line)
                     const trimmedLine = line.trim();
                     for (const searchString of searchStrings) {
                         const trimmedSearchString = searchString.trim();
@@ -39,11 +38,19 @@ async function checkAppAdsTxt(urls: string[], searchStrings: string[]): Promise<
         return false;
     }
 
-    for (const url of urls) {
-        const found = await fetchAndCheckUrl(url);
-        if (found) {
-            urlsWithStrings.push(url);
-        }
+    async function processChunk(chunk: string[]): Promise<void> {
+        const results = await Promise.all(chunk.map(fetchAndCheckUrl));
+        results.forEach((result, index) => {
+            if (result) {
+                urlsWithStrings.push(chunk[index]);
+            }
+        });
+    }
+
+    const chunkSize = 20;
+    for (let i = 0; i < urls.length; i += chunkSize) {
+        const chunk = urls.slice(i, i + chunkSize);
+        await processChunk(chunk);
     }
 
     return urlsWithStrings;
