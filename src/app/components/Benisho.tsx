@@ -1,3 +1,4 @@
+//@ts-ignore
 'use client';
 import { useState } from 'react';
 
@@ -27,8 +28,8 @@ export default function Benisho() {
             <h1>Check app-ads.txt</h1>
             <div>
                 <textarea
-                    rows="10"
-                    cols="50"
+                    rows={10}
+                    cols={50}
                     value={urls}
                     onChange={(e) => setUrls(e.target.value)}
                     placeholder="Enter URLs, one per line"
@@ -36,8 +37,8 @@ export default function Benisho() {
             </div>
             <div>
                 <textarea
-                    rows="10"
-                    cols="50"
+                    rows={10}
+                    cols={50}
                     value={searchStrings}
                     onChange={(e) => setSearchStrings(e.target.value)}
                     placeholder="Enter search strings, one per line"

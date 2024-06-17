@@ -33,7 +33,7 @@ async function checkAppAdsTxt(urls: string[], searchStrings: string[]): Promise<
             } else {
                 console.error(`Failed to fetch ${url}/app-ads.txt: ${response.statusText}`);
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error(`Failed to fetch ${url}/app-ads.txt: ${error.message}`);
         }
         return false;
